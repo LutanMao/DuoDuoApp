@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DuoDuo</string>
+    <string name="str_register_name">登录名：</string>
+    <string name="str_register_pwd">密码：</string>
+    <string name="str_register">注册</string>
+    <string name="str_login">登录</string>
+    <string name="str_menu_1">菜单一</string>
+</resources>
