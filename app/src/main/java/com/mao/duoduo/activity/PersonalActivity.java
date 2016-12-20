@@ -1,6 +1,7 @@
 package com.mao.duoduo.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.kevin.crop.UCrop;
@@ -29,7 +31,8 @@ import java.io.IOException;
 /**
  * Created by Mao on 16-12-20.
  */
-public class PersonalActivity extends AppCompatActivity implements View.OnClickListener, SelectPicturePopupWindow.OnSelectedListener {
+public class PersonalActivity extends AppCompatActivity implements View.OnClickListener,
+        SelectPicturePopupWindow.OnSelectedListener {
 
     private static final int GALLERY_REQUEST_CODE = 0;    // 相册选图标记
     private static final int CAMERA_REQUEST_CODE = 1;    // 相机拍照标记
@@ -43,6 +46,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
     private Uri mDestinationUri;
 
     private TextView mTvSelect;
+    private ImageView mIvPicture;
 
     private AlertDialog mAlertDialog;
     private SelectPicturePopupWindow mPopWindow;
@@ -85,6 +89,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_personal);
         mTvSelect = (TextView) findViewById(R.id.tv_selected);
         mTvSelect.setOnClickListener(this);
+        mIvPicture = (ImageView) findViewById(R.id.iv_pic);
         mPopWindow = new SelectPicturePopupWindow(this);
         mPopWindow.setOnSelectedListener(this);
     }
@@ -94,6 +99,16 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.tv_selected:
                 mPopWindow.showPopupWindow(PersonalActivity.this);
+                setOnPictureSelectedListener(new OnPictureSelectedListener() {
+                    @Override
+                    public void onPictureSelected(Uri fileUri, Bitmap bitmap) {
+                        mIvPicture.setImageBitmap(bitmap);
+
+                        String filePath = fileUri.getEncodedPath();
+                        String imagePath = Uri.decode(filePath);
+                        Toast.makeText(PersonalActivity.this, "图片已经保存到:" + imagePath, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
         }
     }
@@ -221,16 +236,19 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
      * 如果权限被拒绝过，则提示用户需要权限
      */
     private void requestPermission(final String permission, String rationale, final int requestCode) {
-        if (shouldShowRequestPermissionRationale(permission)) {
-            showAlertDialog(getString(R.string.permission_title_rationale), rationale,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{permission}, requestCode);
-                        }
-                    }, getString(R.string.label_ok), null, getString(R.string.label_cancel));
-        } else {
-            requestPermissions(new String[]{permission}, requestCode);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (shouldShowRequestPermissionRationale(permission)) {
+                showAlertDialog(getString(R.string.permission_title_rationale), rationale,
+                        new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.M)
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(new String[]{permission}, requestCode);
+                            }
+                        }, getString(R.string.label_ok), null, getString(R.string.label_cancel));
+            } else {
+                requestPermissions(new String[]{permission}, requestCode);
+            }
         }
     }
 
