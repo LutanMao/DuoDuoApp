@@ -9,7 +9,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
-import com.kevin.crop.R;
+import com.mao.duoduo.R;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

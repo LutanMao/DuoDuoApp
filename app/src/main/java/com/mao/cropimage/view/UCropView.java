@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
-import com.kevin.crop.R;
+import com.mao.duoduo.R;
 
 public class UCropView extends FrameLayout {
 

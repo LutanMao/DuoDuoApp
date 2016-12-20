@@ -10,9 +10,9 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import com.kevin.crop.R;
 import com.mao.cropimage.utils.CubicEasing;
 import com.mao.cropimage.utils.RectUtils;
+import com.mao.duoduo.R;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;

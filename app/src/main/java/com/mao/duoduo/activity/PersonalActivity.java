@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.kevin.crop.UCrop;
+import com.mao.cropimage.UCrop;
 import com.mao.duoduo.R;
 import com.mao.duoduo.widget.SelectPicturePopupWindow;
 

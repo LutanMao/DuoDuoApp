@@ -13,9 +13,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import com.kevin.crop.UCrop;
-import com.kevin.crop.util.BitmapLoadUtils;
-import com.kevin.crop.view.*;
+import com.mao.cropimage.UCrop;
+import com.mao.cropimage.utils.BitmapLoadUtils;
+import com.mao.cropimage.view.*;
 import com.mao.duoduo.R;
 
 import java.io.OutputStream;

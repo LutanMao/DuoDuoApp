@@ -13,7 +13,7 @@
             android:layout_below="@+id/tb_toolbar"
             android:background="#000">
 
-        <com.kevin.crop.view.UCropView
+        <com.mao.cropimage.view.UCropView
                 android:id="@+id/weixin_act_ucrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
