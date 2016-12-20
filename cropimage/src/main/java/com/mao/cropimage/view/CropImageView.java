@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import com.kevin.crop.R;
-import com.kevin.crop.util.CubicEasing;
-import com.kevin.crop.util.RectUtils;
+import com.mao.cropimage.utils.CubicEasing;
+import com.mao.cropimage.utils.RectUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;

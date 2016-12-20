@@ -236,6 +236,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
      * 如果权限被拒绝过，则提示用户需要权限
      */
     private void requestPermission(final String permission, String rationale, final int requestCode) {
+        // android 6.0要手动申请权限， 9大dangerous permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale(permission)) {
                 showAlertDialog(getString(R.string.permission_title_rationale), rationale,
