@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,6 +16,7 @@ import com.mao.cropimage.UCrop;
 import com.mao.cropimage.utils.BitmapLoadUtils;
 import com.mao.cropimage.view.*;
 import com.mao.duoduo.R;
+import com.mao.duoduo.utils.MaoLog;
 
 import java.io.OutputStream;
 
@@ -45,8 +45,11 @@ public class CropActivity extends AppCompatActivity {
     private void initView() {
         setContentView(R.layout.activity_crop);
         initToolBar();
+        mUCropView = (UCropView) findViewById(R.id.weixin_act_ucrop);
+        MaoLog.e(TAG, "mUCropView = " + mUCropView);
         mGestureCropImageView = mUCropView.getCropImageView();
         mOverlayView = mUCropView.getOverlayView();
+        mSaveFab = (FloatingActionButton) findViewById(R.id.crop_act_save_fab);
         initCropView();
     }
 
@@ -83,6 +86,7 @@ public class CropActivity extends AppCompatActivity {
     }
 
     private void initToolBar() {
+        mToolBar = (Toolbar) findViewById(R.id.tb_toolbar);
         mToolBar.setTitle("裁剪图片");
         setSupportActionBar(mToolBar);
         mToolBar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
@@ -147,7 +151,7 @@ public class CropActivity extends AppCompatActivity {
                 mGestureCropImageView.setMaxResultImageSizeX(maxSizeX);
                 mGestureCropImageView.setMaxResultImageSizeY(maxSizeY);
             } else {
-                Log.w(TAG, "EXTRA_MAX_SIZE_X and EXTRA_MAX_SIZE_Y must be greater than 0");
+                MaoLog.w(TAG, "EXTRA_MAX_SIZE_X and EXTRA_MAX_SIZE_Y must be greater than 0");
             }
         }
     }

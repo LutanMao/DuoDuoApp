@@ -7,31 +7,29 @@ import android.util.Log;
  */
 public class MaoLog {
 
-    private static final String TAG = "MaoLog";
-
     private static boolean isDebug = true;
 
-    public static void i(String msg) {
+    public static void i(String tag, String msg) {
         if (isDebug) {
-            Log.i(TAG, msg);
+            Log.i(tag, msg);
         }
     }
 
-    public static void d(String msg) {
+    public static void d(String tag, String msg) {
         if (isDebug) {
-            Log.d(TAG, msg);
+            Log.d(tag, msg);
         }
     }
 
-    public static void e(String msg) {
+    public static void e(String tag, String msg) {
         if (isDebug) {
-            Log.e(TAG, msg);
+            Log.e(tag, msg);
         }
     }
 
-    public static void w(String msg) {
+    public static void w(String tag, String msg) {
         if (isDebug) {
-            Log.w(TAG, msg);
+            Log.w(tag, msg);
         }
     }
 
