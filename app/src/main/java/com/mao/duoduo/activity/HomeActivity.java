@@ -57,7 +57,8 @@ public class HomeActivity extends AppCompatActivity {
         };
 
         mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
         mListView.setAdapter(mArrayAdapter);
