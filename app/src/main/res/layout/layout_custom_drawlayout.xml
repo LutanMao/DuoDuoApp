@@ -12,6 +12,7 @@
 
         <ImageView
                 android:id="@+id/iv_main"
+                android:src="@drawable/img_1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"/>
 
@@ -21,8 +22,15 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
+            android:background="#ff0000"
+            android:orientation="vertical"
             android:layout_gravity="start">
+
+        <com.mao.duoduo.widget.CircleImageView
+                android:id="@+id/civ_header"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/img_1"/>
 
         <ListView
                 android:id="@+id/lv_left_menu"
