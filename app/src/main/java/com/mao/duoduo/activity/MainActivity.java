@@ -23,10 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_register:
-//                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
-//                startActivity(registerIntent);
-                Intent intent = new Intent(MainActivity.this, PersonalActivity.class);
-                startActivity(intent);
+                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(registerIntent);
                 break;
             case R.id.btn_login:
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);

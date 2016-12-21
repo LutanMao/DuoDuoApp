@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import com.mao.cropimage.UCrop;
 import com.mao.duoduo.R;
@@ -225,7 +226,16 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         });
         User newUser = new User();
         newUser.setAvatar(Uri.decode(headerUri.getEncodedPath()));
-        newUser.update();
+        newUser.update(newUser.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (null == e) {
+                    MaoLog.i(TAG, "Update success");
+                } else {
+                    MaoLog.i(TAG, "Update failure : " + e.getMessage());
+                }
+            }
+        });
     }
 
     /**
