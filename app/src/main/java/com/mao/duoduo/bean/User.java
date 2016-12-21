@@ -8,7 +8,7 @@ import cn.bmob.v3.BmobUser;
 public class User extends BmobUser {
 
     // 姓名
-    private String name;
+    private String realName;
 
     // 年龄
     private int age;
@@ -37,11 +37,11 @@ public class User extends BmobUser {
     }
 
     public String getName() {
-        return name;
+        return realName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String realName) {
+        this.realName = realName;
     }
 
 }

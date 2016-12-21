@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
@@ -60,28 +61,6 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
 
     private AlertDialog mAlertDialog;
     private SelectPicturePopupWindow mPopWindow;
-    /**
-     * 图片选择的监听回调
-     */
-    private OnPictureSelectedListener mOnPictureSelectedListener;
-
-    /**
-     * 图片选择的回调接口
-     */
-    public interface OnPictureSelectedListener {
-        /**
-         * 图片选择的监听回调
-         */
-        void onPictureSelected(Uri fileUri, Bitmap bitmap);
-    }
-
-    /**
-     * 设置图片选择的回调监听
-     */
-    public void setOnPictureSelectedListener(OnPictureSelectedListener l) {
-        this.mOnPictureSelectedListener = l;
-    }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,16 +89,6 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.tv_selected:
                 mPopWindow.showPopupWindow(PersonalActivity.this);
-                setOnPictureSelectedListener(new OnPictureSelectedListener() {
-                    @Override
-                    public void onPictureSelected(Uri fileUri, Bitmap bitmap) {
-                        mIvPicture.setImageBitmap(bitmap);
-                        mCiHeader.setImageBitmap(bitmap);
-                        String filePath = fileUri.getEncodedPath();
-                        String imagePath = Uri.decode(filePath);
-                        Toast.makeText(PersonalActivity.this, "图片已经保存到:" + imagePath, Toast.LENGTH_LONG).show();
-                    }
-                });
                 break;
         }
     }
@@ -185,7 +154,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
     private void handleCropResult(Intent result) {
         deleteTempPhotoFile();
         final Uri resultUri = UCrop.getOutput(result);
-        if (null != resultUri && null != mOnPictureSelectedListener) {
+        if (null != resultUri) {
             Bitmap bitmap = null;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
@@ -198,21 +167,32 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
             mIvPicture.setImageBitmap(bitmap);
 
             upLoadHeader(resultUri);
-
-//            mOnPictureSelectedListener.onPictureSelected(resultUri, bitmap);
         } else {
             Toast.makeText(this, "无法剪切选择图片", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void upLoadHeader(Uri headerUri) {
-        BmobFile headFile = new BmobFile(new File(Uri.decode(headerUri.getEncodedPath())));
-        headFile.upload(new UploadFileListener() {
+        final BmobFile headFile = new BmobFile(new File(Uri.decode(headerUri.getEncodedPath())));
+        headFile.uploadblock(new UploadFileListener() {
 
             @Override
             public void done(BmobException e) {
                 if (null == e) {
-                    MaoLog.i(TAG, "Header file upload success");
+                    //headFile.getFileUrl()--返回的上传文件的完整地址
+                    MaoLog.i(TAG, "Header file upload success ， 文件地址 :　" + headFile.getFileUrl());
+                    User user = BmobUser.getCurrentUser(User.class);
+                    user.setAvatar(headFile.getFileUrl());
+                    user.update(user.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (null == e) {
+                                MaoLog.i(TAG, "Update success");
+                            } else {
+                                MaoLog.i(TAG, "Update failure : " + e.getMessage());
+                            }
+                        }
+                    });
                 } else {
                     MaoLog.i(TAG, "Header file upload failure : " + e.getMessage());
                 }
@@ -222,18 +202,6 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
             public void onProgress(Integer value) {
                 super.onProgress(value);
                 MaoLog.i(TAG, "Progress : " + value);
-            }
-        });
-        User newUser = new User();
-        newUser.setAvatar(Uri.decode(headerUri.getEncodedPath()));
-        newUser.update(newUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (null == e) {
-                    MaoLog.i(TAG, "Update success");
-                } else {
-                    MaoLog.i(TAG, "Update failure : " + e.getMessage());
-                }
             }
         });
     }
