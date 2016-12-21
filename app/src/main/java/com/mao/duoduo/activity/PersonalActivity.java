@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.mao.cropimage.UCrop;
 import com.mao.duoduo.R;
+import com.mao.duoduo.widget.CircleImageView;
 import com.mao.duoduo.widget.SelectPicturePopupWindow;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
 
     private TextView mTvSelect;
     private ImageView mIvPicture;
+    private CircleImageView mCiHeader;
 
     private AlertDialog mAlertDialog;
     private SelectPicturePopupWindow mPopWindow;
@@ -90,6 +92,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         mTvSelect = (TextView) findViewById(R.id.tv_selected);
         mTvSelect.setOnClickListener(this);
         mIvPicture = (ImageView) findViewById(R.id.iv_pic);
+        mCiHeader = (CircleImageView) findViewById(R.id.iv_circle_pic);
         mPopWindow = new SelectPicturePopupWindow(this);
         mPopWindow.setOnSelectedListener(this);
     }
@@ -103,7 +106,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onPictureSelected(Uri fileUri, Bitmap bitmap) {
                         mIvPicture.setImageBitmap(bitmap);
-
+                        mCiHeader.setImageBitmap(bitmap);
                         String filePath = fileUri.getEncodedPath();
                         String imagePath = Uri.decode(filePath);
                         Toast.makeText(PersonalActivity.this, "图片已经保存到:" + imagePath, Toast.LENGTH_LONG).show();

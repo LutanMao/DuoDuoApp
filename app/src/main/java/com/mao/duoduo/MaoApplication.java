@@ -2,16 +2,26 @@ package com.mao.duoduo;
 
 import android.app.Application;
 import cn.bmob.v3.Bmob;
+import com.mao.duoduo.utils.ActivityStack;
 
 /**
  * Created by Mao on 2016/11/2.
  */
 public class MaoApplication extends Application {
 
+    private ActivityStack mActivityStack = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        initBmobConfig();
+        initActivityStack();
+    }
 
+    /**
+     * 初始化Bmob参数
+     */
+    private void initBmobConfig() {
         //提供以下两种方式进行初始化操作：
 
         //第一：默认初始化
@@ -29,6 +39,10 @@ public class MaoApplication extends Application {
         //.setFileExpiration(2500)
         //.build();
         //Bmob.initialize(config);
-
     }
+
+    private void initActivityStack() {
+        mActivityStack = new ActivityStack();
+    }
+
 }

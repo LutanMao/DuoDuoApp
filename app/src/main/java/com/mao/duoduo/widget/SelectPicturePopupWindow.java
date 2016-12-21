@@ -35,8 +35,6 @@ public class SelectPicturePopupWindow extends PopupWindow implements View.OnClic
 
     /**
      * 把一个View控件添加到PopupWindow上并且显示
-     *
-     * @param activity
      */
     public void showPopupWindow(Activity activity) {
         popupWindow = new PopupWindow(mMenuView,    // 添加到popupWindow
@@ -82,7 +80,6 @@ public class SelectPicturePopupWindow extends PopupWindow implements View.OnClic
 
     /**
      * 设置选择监听
-     * @param l
      */
     public void setOnSelectedListener(OnSelectedListener l) {
         this.mOnSelectedListener = l;
