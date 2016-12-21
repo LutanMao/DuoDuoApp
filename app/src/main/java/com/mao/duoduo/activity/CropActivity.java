@@ -46,7 +46,6 @@ public class CropActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crop);
         initToolBar();
         mUCropView = (UCropView) findViewById(R.id.weixin_act_ucrop);
-        MaoLog.e(TAG, "mUCropView = " + mUCropView);
         mGestureCropImageView = mUCropView.getCropImageView();
         mOverlayView = mUCropView.getOverlayView();
         mSaveFab = (FloatingActionButton) findViewById(R.id.crop_act_save_fab);

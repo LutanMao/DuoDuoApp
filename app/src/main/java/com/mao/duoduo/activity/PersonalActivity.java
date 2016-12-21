@@ -20,8 +20,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UploadFileListener;
 import com.mao.cropimage.UCrop;
 import com.mao.duoduo.R;
+import com.mao.duoduo.bean.User;
+import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
 import com.mao.duoduo.widget.SelectPicturePopupWindow;
 
@@ -34,6 +39,8 @@ import java.io.IOException;
  */
 public class PersonalActivity extends AppCompatActivity implements View.OnClickListener,
         SelectPicturePopupWindow.OnSelectedListener {
+
+    private static final String TAG = "PersonalActivity";
 
     private static final int GALLERY_REQUEST_CODE = 0;    // 相册选图标记
     private static final int CAMERA_REQUEST_CODE = 1;    // 相机拍照标记
@@ -186,10 +193,39 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mOnPictureSelectedListener.onPictureSelected(resultUri, bitmap);
+            mCiHeader.setImageBitmap(bitmap);
+            mIvPicture.setImageBitmap(bitmap);
+
+            upLoadHeader(resultUri);
+
+//            mOnPictureSelectedListener.onPictureSelected(resultUri, bitmap);
         } else {
             Toast.makeText(this, "无法剪切选择图片", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void upLoadHeader(Uri headerUri) {
+        BmobFile headFile = new BmobFile(new File(Uri.decode(headerUri.getEncodedPath())));
+        headFile.upload(new UploadFileListener() {
+
+            @Override
+            public void done(BmobException e) {
+                if (null == e) {
+                    MaoLog.i(TAG, "Header file upload success");
+                } else {
+                    MaoLog.i(TAG, "Header file upload failure : " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onProgress(Integer value) {
+                super.onProgress(value);
+                MaoLog.i(TAG, "Progress : " + value);
+            }
+        });
+        User newUser = new User();
+        newUser.setAvatar(Uri.decode(headerUri.getEncodedPath()));
+        newUser.update();
     }
 
     /**
