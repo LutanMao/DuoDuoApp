@@ -11,7 +11,7 @@ import com.mao.duoduo.utils.ActivityStack;
 public class MaoApplication extends Application {
 
     private static MaoApplication mApplication = null;
-    private ActivityStack mActivityStack = null;
+    public ActivityStack mActivityStack = null;
 
     public static MaoApplication getInstance() {
         return mApplication;
