@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import cn.bmob.v3.BmobUser;
+import com.bumptech.glide.Glide;
 import com.mao.duoduo.R;
 import com.mao.duoduo.bean.User;
 import com.mao.duoduo.presenter.HomePresenter;
@@ -100,7 +101,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData() {
-        mHomePresenter.getHeaderPic(BmobUser.getCurrentUser(User.class).getAvatar());
+//        Picasso.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mCivHeader);
+//        mHomePresenter.getHeaderPic(BmobUser.getCurrentUser(User.class).getAvatar());
+        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mCivHeader);
     }
 
 }
