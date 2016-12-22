@@ -103,7 +103,7 @@ public class CropActivity extends AppCompatActivity {
         // 设置外部阴影颜色
         mOverlayView.setDimmedColor(Color.parseColor("#AA000000"));
         // 设置周围阴影是否为椭圆(如果false则为矩形)
-        mOverlayView.setOvalDimmedLayer(false);
+        mOverlayView.setOvalDimmedLayer(true);
         // 设置显示裁剪边框
         mOverlayView.setShowCropFrame(true);
         // 设置不显示裁剪网格
