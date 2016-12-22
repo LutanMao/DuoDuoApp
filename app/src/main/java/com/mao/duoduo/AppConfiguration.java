@@ -8,4 +8,7 @@ public class AppConfiguration {
     // 是否发布版本
     public static boolean isDebug = true;
 
+    // 应用报名
+    public static final String APPLICATION_ID = "com.mao.duoduo";
+
 }

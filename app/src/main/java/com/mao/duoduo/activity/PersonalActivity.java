@@ -172,6 +172,10 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
+     * 上传头像文件
+     * @param headerUri
+     */
     private void upLoadHeader(Uri headerUri) {
         final BmobFile headFile = new BmobFile(new File(Uri.decode(headerUri.getEncodedPath())));
         headFile.uploadblock(new UploadFileListener() {
@@ -181,18 +185,8 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
                 if (null == e) {
                     //headFile.getFileUrl()--返回的上传文件的完整地址
                     MaoLog.i(TAG, "Header file upload success ， 文件地址 :　" + headFile.getFileUrl());
-                    User user = BmobUser.getCurrentUser(User.class);
-                    user.setAvatar(headFile.getFileUrl());
-                    user.update(user.getObjectId(), new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            if (null == e) {
-                                MaoLog.i(TAG, "Update success");
-                            } else {
-                                MaoLog.i(TAG, "Update failure : " + e.getMessage());
-                            }
-                        }
-                    });
+//                    deleteLastAvatar();
+                    updateUser(headFile);
                 } else {
                     MaoLog.i(TAG, "Header file upload failure : " + e.getMessage());
                 }
@@ -202,6 +196,43 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
             public void onProgress(Integer value) {
                 super.onProgress(value);
                 MaoLog.i(TAG, "Progress : " + value);
+            }
+        });
+    }
+
+    /**
+     * 删除原来的头像
+     */
+    private void deleteLastAvatar() {
+        User user = BmobUser.getCurrentUser(User.class);
+        BmobFile bmobFile = new BmobFile();
+        bmobFile.setUrl(user.getAvatar());
+        bmobFile.delete(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (null == e) {
+                    MaoLog.i(TAG, "Delete header pic success");
+                } else {
+                    MaoLog.i(TAG, "Delete header pic failure : " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新用户 头像 数据
+     */
+    private void updateUser(BmobFile headFile) {
+        User user = BmobUser.getCurrentUser(User.class);
+        user.setAvatar(headFile.getFileUrl());
+        user.update(user.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (null == e) {
+                    MaoLog.i(TAG, "Update success");
+                } else {
+                    MaoLog.i(TAG, "Update failure : " + e.getMessage());
+                }
             }
         });
     }
@@ -218,8 +249,6 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * 处理剪切失败的返回值
-     *
-     * @param result
      */
     private void handleCropError(Intent result) {
         deleteTempPhotoFile();

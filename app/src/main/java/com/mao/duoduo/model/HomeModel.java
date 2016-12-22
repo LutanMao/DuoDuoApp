@@ -1,9 +1,12 @@
 package com.mao.duoduo.model;
 
 import android.os.Environment;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
+import com.mao.duoduo.AppConfiguration;
+import com.mao.duoduo.bean.User;
 import com.mao.duoduo.presenter.IHomePresenter;
 import com.mao.duoduo.utils.MaoLog;
 
@@ -25,7 +28,8 @@ public class HomeModel implements IHomeModel {
     @Override
     public void getHeaderPic(String picPath) {
         BmobFile bmobFile = new BmobFile("cropimage.jpeg", "", picPath);
-        File saveFile = new File(Environment.getExternalStorageDirectory(), bmobFile.getFilename());
+        File saveFile = new File(Environment.getExternalStorageDirectory() + "/" + AppConfiguration.APPLICATION_ID,
+                BmobUser.getCurrentUser(User.class).getUsername() + "-" + bmobFile.getFilename());
         bmobFile.download(saveFile, new DownloadFileListener() {
 
             @Override
