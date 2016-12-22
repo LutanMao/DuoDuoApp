@@ -6,9 +6,6 @@
               android:orientation="vertical"
               tools:context=".activity.HomeActivity">
 
-    <!--Toolbar-->
-    <include layout="@layout/layout_custom_toolbar"/>
-
     <!--DrawerLayout-->
     <include layout="@layout/layout_custom_drawlayout"/>
 

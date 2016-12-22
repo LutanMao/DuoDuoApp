@@ -9,7 +9,11 @@
     <!--主布局-->
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <!--Toolbar-->
+        <include layout="@layout/layout_custom_toolbar"/>
 
         <ImageView
                 android:id="@+id/iv_main"
