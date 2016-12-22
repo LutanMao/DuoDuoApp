@@ -20,28 +20,28 @@
     </LinearLayout>
 
     <!--侧滑菜单-->
-    <LinearLayout
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#112233"
             android:orientation="vertical"
             android:layout_gravity="start">
 
+        <com.mao.duoduo.widget.PullToZoomListView
+                android:id="@+id/lv_left_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@android:color/transparent"/>
+
         <com.mao.duoduo.widget.CircleImageView
                 android:id="@+id/civ_header"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
                 mao:border_width="2dp"
                 mao:border_color="@color/white"
                 android:src="@drawable/img_1"/>
 
-        <ListView
-                android:id="@+id/lv_left_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                android:text="DrawerLayout"/>
-
-    </LinearLayout>
+    </FrameLayout>
 
 </android.support.v4.widget.DrawerLayout>

@@ -12,13 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ImageView;
 import cn.bmob.v3.BmobUser;
 import com.bumptech.glide.Glide;
 import com.mao.duoduo.R;
 import com.mao.duoduo.bean.User;
 import com.mao.duoduo.presenter.HomePresenter;
 import com.mao.duoduo.widget.CircleImageView;
+import com.mao.duoduo.widget.PullToZoomListView;
 
 import java.io.File;
 
@@ -31,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
-    private ListView mListView;
+    private PullToZoomListView mListView;
     private CircleImageView mCivHeader;
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayAdapter mArrayAdapter;
@@ -71,7 +72,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         mToolbar = (Toolbar) findViewById(R.id.tb_toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
-        mListView = (ListView) findViewById(R.id.lv_left_menu);
+        mListView = (PullToZoomListView) findViewById(R.id.lv_left_menu);
+
+        // 显示放大图片的ListView
+        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mListView.getHeaderView());
+        mListView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
         mCivHeader = (CircleImageView) findViewById(R.id.civ_header);
         mCivHeader.setOnClickListener(this);
         mToolbar.setTitle("ToolBar");
