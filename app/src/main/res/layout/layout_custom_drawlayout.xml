@@ -15,11 +15,22 @@
         <!--Toolbar-->
         <include layout="@layout/layout_custom_toolbar"/>
 
-        <ImageView
-                android:id="@+id/iv_main"
-                android:src="@drawable/img_1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"/>
+        <android.support.v4.view.ViewPager
+                android:id="@+id/vp_content"
+                android:layout_below="@+id/tb_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        <!--Bottom-->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+            <include layout="@layout/layout_home_bottom"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

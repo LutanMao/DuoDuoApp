@@ -40,12 +40,7 @@ public class HomeModel implements IHomeModel {
 
             @Override
             public void done(String s, BmobException e) {
-                if (null == e) {
-                    mHomePresenter.getHeaderPicResult(true, s);
-                } else {
-                    mHomePresenter.getHeaderPicResult(false, e.getMessage());
-                    MaoLog.i(TAG, "Download failure : " + e.getMessage());
-                }
+
             }
 
             @Override

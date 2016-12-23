@@ -5,8 +5,5 @@ package com.mao.duoduo.presenter;
  */
 public interface IHomePresenter {
 
-    void getHeaderPic(String picPath);
-
-    void getHeaderPicResult(boolean result, String picPath);
 
 }

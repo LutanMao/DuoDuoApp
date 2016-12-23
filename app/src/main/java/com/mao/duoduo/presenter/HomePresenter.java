@@ -17,14 +17,4 @@ public class HomePresenter implements IHomePresenter {
         mHomeModel = new HomeModel(this);
     }
 
-    @Override
-    public void getHeaderPic(String picPath) {
-        mHomeModel.getHeaderPic(picPath);
-    }
-
-    @Override
-    public void getHeaderPicResult(boolean result, String picPath) {
-        mHomeView.getHeaderPicResult(result, picPath);
-    }
-
 }

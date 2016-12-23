@@ -5,6 +5,5 @@ package com.mao.duoduo.activity;
  */
 public interface IHomeView {
 
-    void getHeaderPicResult(boolean result, String picPath);
 
 }
