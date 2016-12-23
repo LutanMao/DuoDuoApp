@@ -3,6 +3,7 @@ package com.mao.duoduo.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,16 +23,18 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
 
-    @OnClick(R.id.btn_login)
-    public void login() {
-        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(loginIntent);
-    }
-
-    @OnClick(R.id.btn_register)
-    public void register() {
-        Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
-        startActivity(registerIntent);
+    @OnClick({R.id.btn_login, R.id.btn_register})
+    public void btnClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_login:
+                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                break;
+            case R.id.btn_register:
+                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(registerIntent);
+                break;
+        }
     }
 
     private void initView() {

@@ -3,7 +3,6 @@ package com.mao.duoduo.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import butterknife.*;
 import cn.bmob.v3.BmobUser;
 import com.bumptech.glide.Glide;
 import com.mao.duoduo.R;
@@ -35,28 +35,39 @@ import java.util.List;
 /**
  * Created by Mao on 2016/11/3.
  */
-public class HomeActivity extends BaseActivity implements View.OnClickListener,
-        RadioGroup.OnCheckedChangeListener, IHomeView {
+public class HomeActivity extends BaseActivity implements IHomeView {
 
     private static final String TAG = "HomeActivity";
 
     private HomePresenter mHomePresenter;
 
-    private Toolbar mToolbar;
-    private DrawerLayout mDrawerLayout;
-    private PullToZoomListView mListView;
-    private CircleImageView mCivHeader;
+    @Bind(R.id.tb_toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.drawerlayout)
+    DrawerLayout mDrawerLayout;
+    @Bind(R.id.lv_left_menu)
+    PullToZoomListView mListView;
+    @Bind(R.id.civ_header)
+    CircleImageView mCivHeader;
+
+    @Bind(R.id.vp_content)
+    ViewPager mViewPager;
+    @Bind(R.id.rg_bottom)
+    RadioGroup mRadioGroup;
+    @Bind(R.id.rb_text1)
+    RadioButton mRbText1;
+    @Bind(R.id.rb_text2)
+    RadioButton mRbText2;
+    @Bind(R.id.rb_text3)
+    RadioButton mRbText3;
+    @Bind(R.id.rb_text4)
+    RadioButton mRbText4;
+
+    private HomePagerAdapter mHomePagerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayAdapter mArrayAdapter;
-
-    private ViewPager mViewPager;
-    private HomePagerAdapter mHomePagerAdapter;
     private List<Fragment> mFragmentList;
-    private RadioGroup mRadioGroup;
-    private RadioButton mRbText1;
-    private RadioButton mRbText2;
-    private RadioButton mRbText3;
-    private RadioButton mRbText4;
+
 
     private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
 
@@ -68,12 +79,73 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,
         initData();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.civ_header:
-                Intent intent = new Intent(HomeActivity.this, PersonalActivity.class);
-                startActivity(intent);
+    @OnClick(R.id.civ_header)
+    public void toCutPic() {
+        Intent intent = new Intent(HomeActivity.this, PersonalActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * ViewPager滑动过程监听
+     */
+//    @OnPageChange(value = R.id.vp_content, callback = OnPageChange.Callback.PAGE_SCROLL_STATE_CHANGED)
+//    public void onPageChanged() {
+//        MaoLog.e(TAG, "PAGE_SCROLL_STATE_CHANGED");
+//    }
+//
+//    @OnPageChange(value = R.id.vp_content, callback = OnPageChange.Callback.PAGE_SELECTED)
+//    public void onPageSelected() {
+//        MaoLog.e(TAG, "PAGE_SELECTED");
+//    }
+//
+//    @OnPageChange(value = R.id.vp_content, callback = OnPageChange.Callback.PAGE_SCROLLED)
+//    public void onPageScrolled() {
+//        MaoLog.e(TAG, "PAGE_SCROLLED");
+//    }
+
+    @OnPageChange(R.id.vp_content)
+    public void onPageSelected(int position) {
+        MaoLog.i(TAG, "onPageSelected : position = " + position);
+        mViewPager.setCurrentItem(position);
+        switch (position) {
+            case 0:
+                mRbText1.setChecked(true);
+                break;
+            case 1:
+                mRbText2.setChecked(true);
+                break;
+            case 2:
+                mRbText3.setChecked(true);
+                break;
+            case 3:
+                mRbText4.setChecked(true);
+                break;
+        }
+    }
+
+    @OnCheckedChanged({R.id.rb_text1, R.id.rb_text2, R.id.rb_text3, R.id.rb_text4})
+    public void onCheckedChanged(RadioButton radioButton) {
+        boolean checked = radioButton.isChecked();
+        switch (radioButton.getId()) {
+            case R.id.rb_text1:
+                if (checked) {
+                    mViewPager.setCurrentItem(0);
+                }
+                break;
+            case R.id.rb_text2:
+                if (checked) {
+                    mViewPager.setCurrentItem(1);
+                }
+                break;
+            case R.id.rb_text3:
+                if (checked) {
+                    mViewPager.setCurrentItem(2);
+                }
+                break;
+            case R.id.rb_text4:
+                if (checked) {
+                    mViewPager.setCurrentItem(3);
+                }
                 break;
         }
     }
@@ -82,7 +154,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,
     protected void initView() {
         setContentView(R.layout.activity_home);
 
-        mToolbar = (Toolbar) findViewById(R.id.tb_toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(mToolbar);
         mToolbar.setTitle("ToolBar");
         mToolbar.setTitleTextColor(Color.parseColor("#ffffff"));
@@ -90,60 +163,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
-        mListView = (PullToZoomListView) findViewById(R.id.lv_left_menu);
-
         // 显示放大图片的ListView
         Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mListView.getHeaderView());
         mListView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
-        // 侧边栏头像
-        mCivHeader = (CircleImageView) findViewById(R.id.civ_header);
-        mCivHeader.setOnClickListener(this);
-        // 主体内容
-        mViewPager = (ViewPager) findViewById(R.id.vp_content);
+
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mHomePagerAdapter);
         mViewPager.setCurrentItem(0);
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                MaoLog.i(TAG, "onPageSelected : position = " + position);
-                mViewPager.setCurrentItem(position);
-                switch (position) {
-                    case 0:
-                        mRbText1.setChecked(true);
-                        break;
-                    case 1:
-                        mRbText2.setChecked(true);
-                        break;
-                    case 2:
-                        mRbText3.setChecked(true);
-                        break;
-                    case 3:
-                        mRbText4.setChecked(true);
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        // 主界面底部
-        mRadioGroup = (RadioGroup) findViewById(R.id.rg_bottom);
-        mRadioGroup.setOnCheckedChangeListener(this);
-        mRbText1 = (RadioButton) findViewById(R.id.rb_text1);
-        mRbText2 = (RadioButton) findViewById(R.id.rb_text2);
-        mRbText3 = (RadioButton) findViewById(R.id.rb_text3);
-        mRbText4 = (RadioButton) findViewById(R.id.rb_text4);
         mRbText1.setChecked(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
@@ -181,21 +208,4 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,
         mHomePagerAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-        switch (i) {
-            case R.id.rb_text1:
-                mViewPager.setCurrentItem(0);
-                break;
-            case R.id.rb_text2:
-                mViewPager.setCurrentItem(1);
-                break;
-            case R.id.rb_text3:
-                mViewPager.setCurrentItem(2);
-                break;
-            case R.id.rb_text4:
-                mViewPager.setCurrentItem(3);
-                break;
-        }
-    }
 }
