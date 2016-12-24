@@ -9,12 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import butterknife.*;
+import android.widget.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnPageChange;
 import cn.bmob.v3.BmobUser;
 import com.bumptech.glide.Glide;
 import com.mao.duoduo.R;
@@ -27,7 +28,7 @@ import com.mao.duoduo.fragment.Text4Fragment;
 import com.mao.duoduo.presenter.HomePresenter;
 import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
-import com.mao.duoduo.widget.PullToZoomListView;
+import com.mao.pulltozoomview.PullToZoomScrollViewEx;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +46,11 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     Toolbar mToolbar;
     @Bind(R.id.drawerlayout)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.lv_left_menu)
-    PullToZoomListView mListView;
-    @Bind(R.id.civ_header)
-    CircleImageView mCivHeader;
+
+    ListView mListView;
+    CircleImageView mCirHeader;
+//    @Bind(R.id.civ_header)
+//    CircleImageView mCivHeader;
 
     @Bind(R.id.vp_content)
     ViewPager mViewPager;
@@ -79,11 +81,11 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         initData();
     }
 
-    @OnClick(R.id.civ_header)
-    public void toCutPic() {
-        Intent intent = new Intent(HomeActivity.this, PersonalActivity.class);
-        startActivity(intent);
-    }
+//    @OnClick(R.id.civ_header)
+//    public void toCutPic() {
+//        Intent intent = new Intent(HomeActivity.this, PersonalActivity.class);
+//        startActivity(intent);
+//    }
 
     /**
      * ViewPager滑动过程监听
@@ -164,8 +166,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 显示放大图片的ListView
-        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mListView.getHeaderView());
-        mListView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mListView.getHeaderView());
+//        mListView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mHomePagerAdapter);
@@ -189,15 +191,40 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 //        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
+
+        PullToZoomScrollViewEx scrollView = (PullToZoomScrollViewEx) findViewById(R.id.scroll_view);
+        View headView = LayoutInflater.from(this).inflate(R.layout.profile_head_view, null, false);
+        View zoomView = LayoutInflater.from(this).inflate(R.layout.profile_zoom_view, null, false);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.profile_content_view, null, false);
+
+        mListView = (ListView) contentView.findViewById(R.id.lv_content);
+        mCirHeader = (CircleImageView) headView.findViewById(R.id.iv_user_head);
+        mCirHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, PersonalActivity.class);
+                startActivity(intent);
+            }
+        });
+
         mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
         mListView.setAdapter(mArrayAdapter);
+
+        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar())
+                .into((ImageView) headView.findViewById(R.id.iv_user_head));
+        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar())
+                .into((ImageView) zoomView.findViewById(R.id.iv_zoom));
+
+        scrollView.setHeaderView(headView);
+        scrollView.setZoomView(zoomView);
+        scrollView.setScrollContentView(contentView);
     }
 
     private void initData() {
         // Picasso框架
 //        Picasso.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mCivHeader);
         // Glide框架
-        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mCivHeader);
+//        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mCivHeader);
 
         mFragmentList = new ArrayList<Fragment>();
         mFragmentList.add(new Text1Fragment());

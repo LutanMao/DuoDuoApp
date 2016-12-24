@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:mao="http://schemas.android.com/apk/res-auto"
         android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,28 +34,35 @@
     </LinearLayout>
 
     <!--侧滑菜单-->
-    <FrameLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#112233"
             android:orientation="vertical"
             android:layout_gravity="start">
 
-        <com.mao.duoduo.widget.PullToZoomListView
-                android:id="@+id/lv_left_menu"
+        <com.mao.pulltozoomview.PullToZoomScrollViewEx
+                android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="@android:color/transparent"/>
+                android:layout_height="match_parent">
+        </com.mao.pulltozoomview.PullToZoomScrollViewEx>
 
-        <com.mao.duoduo.widget.CircleImageView
-                android:id="@+id/civ_header"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                mao:border_width="2dp"
-                mao:border_color="@color/white"
-                android:src="@drawable/img_1"/>
 
-    </FrameLayout>
+        <!--<com.mao.duoduo.widget.PullToZoomListView-->
+                <!--android:id="@+id/lv_left_menu"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:cacheColorHint="@android:color/transparent"/>-->
+
+        <!--<com.mao.duoduo.widget.CircleImageView-->
+                <!--android:id="@+id/civ_header"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--mao:border_width="2dp"-->
+                <!--mao:border_color="@color/white"-->
+                <!--android:src="@drawable/img_1"/>-->
+
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
