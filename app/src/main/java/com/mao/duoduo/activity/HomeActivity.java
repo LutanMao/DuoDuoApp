@@ -1,15 +1,21 @@
 package com.mao.duoduo.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +48,10 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
     private static final String TAG = "HomeActivity";
 
+    private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 103;
+    private static final int GET_WEATHER_CITY_ID = 104;
+    private static final int GET_CITY_WEATHER_DATA = 105;
+
     private HomePresenter mHomePresenter;
 
     @BindView(R.id.tb_toolbar)
@@ -66,6 +76,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     private CircleImageView mCirHeader;
     private ImageView mIvWeather;
     private TextView mTvWeather;
+    private TextView mTvAddress;
 
     private Unbinder mUnBinder;
 
@@ -73,26 +84,34 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     private ActionBarDrawerToggle mDrawerToggle;
     private List<Fragment> mFragmentList;
 
+    private String mLocalCity;
+
     private LocationClient mLocationClient;
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            JSONObject data = (JSONObject) msg.obj;
-            MaoLog.i(TAG, "weather_icon = " + data.optString("weather_icon") + "; wendu = "
-                    + data.optString("temperature_curr") + data.optString("weather_curr"));
-            Glide.with(MaoApplication.getInstance()).load(data.optString("weather_icon")).into(mIvWeather);
-            mTvWeather.setText(data.optString("temperature_curr") + data.optString("weather_curr"));
+            if (msg.what == GET_CITY_WEATHER_DATA) {
+                JSONObject data = (JSONObject) msg.obj;
+                MaoLog.i(TAG, "weather_icon = " + data.optString("weather_icon") + "; wendu = "
+                        + data.optString("temperature_curr") + data.optString("weather_curr"));
+                Glide.with(MaoApplication.getInstance()).load(data.optString("weather_icon")).into(mIvWeather);
+                mTvWeather.setText(data.optString("temperature_curr") + data.optString("weather_curr"));
+            }
         }
     };
 
     @Override
     public void getWeatherResult(boolean result, JSONObject data) {
-        Message msg = Message.obtain();
-        msg.what = 0;
-        msg.obj = data;
-        mHandler.sendMessage(msg);
+        if (result) {
+            Message msg = Message.obtain();
+            msg.what = GET_CITY_WEATHER_DATA;
+            msg.obj = data;
+            mHandler.sendMessage(msg);
+        } else {
+
+        }
     }
 
     @Override
@@ -199,6 +218,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         mCirHeader = ButterKnife.findById(headView, R.id.civ_header);
         mIvWeather = ButterKnife.findById(contentView, R.id.iv_weather_icon);
         mTvWeather = ButterKnife.findById(contentView, R.id.tv_weather_wendu);
+        mTvAddress = ButterKnife.findById(contentView, R.id.tv_address);
 
         mCirHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,7 +247,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         option.setCoorType("bd09ll");
         int span = 1000;
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setScanSpan(span);
+        option.setScanSpan(0);
         //可选，设置是否需要地址信息，默认不需要
         option.setIsNeedAddress(true);
         //可选，默认false,设置是否使用gps
@@ -246,7 +266,34 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         option.setEnableSimulateGps(false);
         mLocationClient.setLocOption(option);
         mLocationClient.registerLocationListener(mLocationListener);
-        mLocationClient.start();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
+        } else {
+            mLocationClient.start();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == ACCESS_COARSE_LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mLocationClient.start();
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
     }
 
     private void initData() {
@@ -257,10 +304,6 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         mFragmentList.add(new Text4Fragment());
         mHomePagerAdapter.setFragments(mFragmentList);
         mHomePagerAdapter.notifyDataSetChanged();
-
-        mHomePresenter.getCityId();
-        String cityName = "南京";
-        mHomePresenter.getWeatherByName(cityName);
     }
 
     private BDLocationListener mLocationListener = new BDLocationListener() {
@@ -313,8 +356,6 @@ public class HomeActivity extends BaseActivity implements IHomeView {
             } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
                 sb.append("\ndescribe : ");
                 sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
-            } else {
-                mLocationClient.stop();
             }
             sb.append("\nlocationdescribe : ");
             sb.append(location.getLocationDescribe());// 位置语义化信息
@@ -327,7 +368,9 @@ public class HomeActivity extends BaseActivity implements IHomeView {
                     sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
                 }
             }
+            mTvAddress.setText(location.getCity());
             Toast.makeText(MaoApplication.getInstance(), sb.toString(), Toast.LENGTH_SHORT).show();
+            mHomePresenter.getWeatherByName(location.getCity());
         }
     };
 

@@ -5,8 +5,6 @@ package com.mao.duoduo.model;
  */
 public interface IHomeModel {
 
-    public void getCityId();
-
     public void getWeatherByName(String cityName);
 
     public void getWeatherById(String cityId);

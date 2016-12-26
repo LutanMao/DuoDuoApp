@@ -35,47 +35,20 @@ public class HomeModel implements IHomeModel {
     }
 
     @Override
-    public void getCityId() {
-        OkHttpClient httpClient = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder()
-                .add("app", "weather.city")
-                .add("appkey", "10003")
-                .add("sign", "b59bc3ef6191eb9f747dd4e83c99f2a4")
-                .add("format", "json")
-                .build();
-        Request request = new Request.Builder()
-                .url("http://api.k780.com:88/?")
-                .post(formBody)
-                .build();
-        Call call = httpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String result = response.body().string();
-                    saveCities(result);
-                }
-            }
-        });
-    }
-
-    @Override
     public void getWeatherByName(String cityName) {
+        MaoLog.e(TAG, "GET WEATHER BY NAME");
         DaoSession daoSession = (MaoApplication.getInstance()).getDaoSession();
         WeatherDao weatherDao = daoSession.getWeatherDao();
 
         List<Weather> weathers = weatherDao.queryBuilder()
-                .where(WeatherDao.Properties.Citynm.eq(cityName))
+                .where(WeatherDao.Properties.Citynm.eq(cityName.substring(0, cityName.indexOf("市"))))
                 .orderAsc(WeatherDao.Properties.Cityid)
                 .list();
 
+        MaoLog.e(TAG, "weather = " + weathers.size() + "; city name = " + cityName);
+
         int weaid = weathers.get(0).getWeaid();
-        MaoLog.i(TAG, "weaid = " + weaid + " , city name = " + cityName);
+        MaoLog.e(TAG, "weaid = " + weaid + " , city name = " + cityName);
 
         OkHttpClient httpClient = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
@@ -148,30 +121,6 @@ public class HomeModel implements IHomeModel {
         });
     }
 
-    private void saveCities(String data) {
-        try {
-            JSONObject jsonObject = new JSONObject(data);
-            JSONObject result = jsonObject.optJSONObject("result");
-
-            DaoSession daoSession = (MaoApplication.getInstance()).getDaoSession();
-            WeatherDao weatherDao = daoSession.getWeatherDao();
-
-            JSONObject object = null;
-            Weather weather = null;
-            Iterator it = result.keys();
-            while (it.hasNext()) {
-                object = result.optJSONObject((String) it.next());
-                weather = new Weather(null, object.optInt("weaid"), object.optString("citynm"),
-                        object.optString("cityno"), object.optLong("cityid"), object.optString("area_1"),
-                        object.optString("area_2"), object.optString("area_3"));
-                weatherDao.insert(weather);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
 //        {
 //            "success":"1",
@@ -201,17 +150,5 @@ public class HomeModel implements IHomeModel {
 //                    "windid":"15",
 //                    "winpid":"202"
 //        }
-
-
-    private void getWeatherIcon(String data) {
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(data);
-            JSONObject result = jsonObject.optJSONObject("result");
-            String weatherIcon = result.optString("weather_icon");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

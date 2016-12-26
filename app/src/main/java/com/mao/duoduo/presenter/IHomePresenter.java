@@ -7,8 +7,6 @@ import org.json.JSONObject;
  */
 public interface IHomePresenter {
 
-    public void getCityId();
-
     public void getWeatherByName(String cityName);
 
     public void getWeatherById(String cityId);

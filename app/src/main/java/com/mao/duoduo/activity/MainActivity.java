@@ -2,17 +2,27 @@ package com.mao.duoduo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.bumptech.glide.Glide;
+import com.mao.duoduo.MaoApplication;
 import com.mao.duoduo.R;
+import com.mao.duoduo.presenter.MainPresenter;
+import com.mao.duoduo.utils.MaoLog;
+import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IMainView {
 
     private static final String TAG = "MainActivity";
+    private static final int GET_WEATHER_CITY_ID = 106;
+
+    private MainPresenter mMainPresenter;
 
     @BindView(R.id.btn_register)
     Button mBtnRegister;
@@ -20,9 +30,15 @@ public class MainActivity extends AppCompatActivity {
     Button mBtnLogin;
 
     @Override
+    public void getCityIdResult(boolean result, String data) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        initData();
     }
 
     @OnClick({R.id.btn_login, R.id.btn_register})
@@ -43,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // 必须要setContentView之后bind
         ButterKnife.bind(this);
+    }
+
+    private void initData() {
+        mMainPresenter = new MainPresenter(this);
+        mMainPresenter.getCityId();
     }
 
 }
