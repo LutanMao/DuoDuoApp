@@ -3,15 +3,22 @@ package com.mao.duoduo;
 import android.app.Application;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobConfig;
+import com.mao.duoduo.bean.DaoMaster;
+import com.mao.duoduo.bean.DaoSession;
 import com.mao.duoduo.utils.ActivityStack;
+import org.greenrobot.greendao.database.Database;
 
 /**
  * Created by Mao on 2016/11/2.
  */
 public class MaoApplication extends Application {
 
+    public static final boolean ENCRYPTED = true;
+
     private static MaoApplication mApplication = null;
     public ActivityStack mActivityStack = null;
+
+    private DaoSession daoSession;
 
     public static MaoApplication getInstance() {
         return mApplication;
@@ -23,6 +30,7 @@ public class MaoApplication extends Application {
         mApplication = this;
         initBmobConfig();
         initActivityStack();
+        initDataBase();
     }
 
     /**
@@ -50,6 +58,16 @@ public class MaoApplication extends Application {
 
     private void initActivityStack() {
         mActivityStack = new ActivityStack();
+    }
+
+    private void initDataBase() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "duoduo");
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+    }
+
+    public DaoSession getDaoSession() {
+        return daoSession;
     }
 
 }

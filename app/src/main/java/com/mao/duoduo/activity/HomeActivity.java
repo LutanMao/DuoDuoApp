@@ -3,6 +3,8 @@ package com.mao.duoduo.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,10 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.*;
 import butterknife.*;
 import cn.bmob.v3.BmobUser;
 import com.baidu.location.*;
@@ -31,6 +30,7 @@ import com.mao.duoduo.presenter.HomePresenter;
 import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
 import com.mao.pulltozoomview.PullToZoomScrollViewEx;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +64,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     RadioButton mRbText4;
 
     private CircleImageView mCirHeader;
+    private ImageView mIvWeather;
+    private TextView mTvWeather;
 
     private Unbinder mUnBinder;
 
@@ -73,9 +75,24 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
     private LocationClient mLocationClient;
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            JSONObject data = (JSONObject) msg.obj;
+            MaoLog.i(TAG, "weather_icon = " + data.optString("weather_icon") + "; wendu = "
+                    + data.optString("temperature_curr") + data.optString("weather_curr"));
+            Glide.with(MaoApplication.getInstance()).load(data.optString("weather_icon")).into(mIvWeather);
+            mTvWeather.setText(data.optString("temperature_curr") + data.optString("weather_curr"));
+        }
+    };
+
     @Override
-    public void getWeatherResult(boolean result, String data) {
-        Toast.makeText(MaoApplication.getInstance(), data, Toast.LENGTH_SHORT).show();
+    public void getWeatherResult(boolean result, JSONObject data) {
+        Message msg = Message.obtain();
+        msg.what = 0;
+        msg.obj = data;
+        mHandler.sendMessage(msg);
     }
 
     @Override
@@ -180,6 +197,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         View contentView = LayoutInflater.from(this).inflate(R.layout.profile_content_view, null, false);
 
         mCirHeader = ButterKnife.findById(headView, R.id.civ_header);
+        mIvWeather = ButterKnife.findById(contentView, R.id.iv_weather_icon);
+        mTvWeather = ButterKnife.findById(contentView, R.id.tv_weather_wendu);
 
         mCirHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,7 +225,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，默认gcj02，设置返回的定位结果坐标系
         option.setCoorType("bd09ll");
-        int span=1000;
+        int span = 1000;
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setScanSpan(span);
         //可选，设置是否需要地址信息，默认不需要
@@ -239,6 +258,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         mHomePagerAdapter.setFragments(mFragmentList);
         mHomePagerAdapter.notifyDataSetChanged();
 
+        mHomePresenter.getCityId();
         String cityName = "南京";
         mHomePresenter.getWeatherByName(cityName);
     }
@@ -259,7 +279,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
             sb.append(location.getRadius());
             sb.append("\ncity : ");
             sb.append(location.getCity());
-            if (location.getLocType() == BDLocation.TypeGpsLocation){// GPS定位结果
+            if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
                 sb.append("\nspeed : ");
                 sb.append(location.getSpeed());// 单位：公里每小时
                 sb.append("\nsatellite : ");
@@ -273,7 +293,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
                 sb.append("\ndescribe : ");
                 sb.append("gps定位成功");
 
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){// 网络定位结果
+            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
                 sb.append("\naddr : ");
                 sb.append(location.getAddrStr());
                 //运营商信息
