@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mao.duoduo.R;
@@ -17,11 +17,11 @@ import com.mao.duoduo.presenter.LoginPresenter;
  */
 public class LoginActivity extends AppCompatActivity implements ILoginView {
 
-    @Bind(R.id.et_login_name)
+    @BindView(R.id.et_login_name)
     EditText mEtLoginName;
-    @Bind(R.id.et_login_pwd)
+    @BindView(R.id.et_login_pwd)
     EditText mEtLoginPwd;
-    @Bind(R.id.btn_login)
+    @BindView(R.id.btn_login)
     Button mBtnLogin;
 
     private LoginPresenter mLoginPresenter;

@@ -15,7 +15,7 @@
             android:layout_alignParentBottom="true">
 
         <com.mao.duoduo.widget.CircleImageView
-                android:id="@+id/iv_user_head"
+                android:id="@+id/civ_header"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="100dp"
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_below="@id/iv_user_head"
+                android:layout_below="@id/civ_header"
                 android:layout_centerHorizontal="true"
                 android:text="我的签名：小多多..."
                 android:textColor="#ffffff"/>

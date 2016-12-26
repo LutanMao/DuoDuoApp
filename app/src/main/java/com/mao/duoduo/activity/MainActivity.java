@@ -5,16 +5,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mao.duoduo.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.btn_register)
+    private static final String TAG = "MainActivity";
+
+    @BindView(R.id.btn_register)
     Button mBtnRegister;
-    @Bind(R.id.btn_login)
+    @BindView(R.id.btn_login)
     Button mBtnLogin;
 
     @Override

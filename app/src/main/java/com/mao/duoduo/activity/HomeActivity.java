@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnPageChange;
@@ -42,27 +42,27 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
     private HomePresenter mHomePresenter;
 
-    @Bind(R.id.tb_toolbar)
+    @BindView(R.id.tb_toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.drawerlayout)
+    @BindView(R.id.drawerlayout)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.scroll_view)
+    PullToZoomScrollViewEx mScrollView;
+    
+    private ListView mListView;
+    private CircleImageView mCirHeader;
 
-    ListView mListView;
-    CircleImageView mCirHeader;
-//    @Bind(R.id.civ_header)
-//    CircleImageView mCivHeader;
-
-    @Bind(R.id.vp_content)
+    @BindView(R.id.vp_content)
     ViewPager mViewPager;
-    @Bind(R.id.rg_bottom)
+    @BindView(R.id.rg_bottom)
     RadioGroup mRadioGroup;
-    @Bind(R.id.rb_text1)
+    @BindView(R.id.rb_text1)
     RadioButton mRbText1;
-    @Bind(R.id.rb_text2)
+    @BindView(R.id.rb_text2)
     RadioButton mRbText2;
-    @Bind(R.id.rb_text3)
+    @BindView(R.id.rb_text3)
     RadioButton mRbText3;
-    @Bind(R.id.rb_text4)
+    @BindView(R.id.rb_text4)
     RadioButton mRbText4;
 
     private HomePagerAdapter mHomePagerAdapter;
@@ -80,12 +80,6 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         initView();
         initData();
     }
-
-//    @OnClick(R.id.civ_header)
-//    public void toCutPic() {
-//        Intent intent = new Intent(HomeActivity.this, PersonalActivity.class);
-//        startActivity(intent);
-//    }
 
     /**
      * ViewPager滑动过程监听
@@ -165,14 +159,10 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // 显示放大图片的ListView
-//        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mListView.getHeaderView());
-//        mListView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mHomePagerAdapter);
-        mViewPager.setCurrentItem(0);
 
+        mViewPager.setCurrentItem(0);
         mRbText1.setChecked(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
@@ -188,17 +178,15 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         };
 
         mDrawerToggle.syncState();
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-
-        PullToZoomScrollViewEx scrollView = (PullToZoomScrollViewEx) findViewById(R.id.scroll_view);
         View headView = LayoutInflater.from(this).inflate(R.layout.profile_head_view, null, false);
         View zoomView = LayoutInflater.from(this).inflate(R.layout.profile_zoom_view, null, false);
         View contentView = LayoutInflater.from(this).inflate(R.layout.profile_content_view, null, false);
 
-        mListView = (ListView) contentView.findViewById(R.id.lv_content);
-        mCirHeader = (CircleImageView) headView.findViewById(R.id.iv_user_head);
+        mListView = ButterKnife.findById(contentView, R.id.lv_content);
+        mCirHeader = ButterKnife.findById(headView, R.id.civ_header);
+
         mCirHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,21 +199,16 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         mListView.setAdapter(mArrayAdapter);
 
         Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar())
-                .into((ImageView) headView.findViewById(R.id.iv_user_head));
+                .into((ImageView) headView.findViewById(R.id.civ_header));
         Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar())
                 .into((ImageView) zoomView.findViewById(R.id.iv_zoom));
 
-        scrollView.setHeaderView(headView);
-        scrollView.setZoomView(zoomView);
-        scrollView.setScrollContentView(contentView);
+        mScrollView.setHeaderView(headView);
+        mScrollView.setZoomView(zoomView);
+        mScrollView.setScrollContentView(contentView);
     }
 
     private void initData() {
-        // Picasso框架
-//        Picasso.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mCivHeader);
-        // Glide框架
-//        Glide.with(this).load(BmobUser.getCurrentUser(User.class).getAvatar()).into(mCivHeader);
-
         mFragmentList = new ArrayList<Fragment>();
         mFragmentList.add(new Text1Fragment());
         mFragmentList.add(new Text2Fragment());
