@@ -5,5 +5,6 @@ package com.mao.duoduo.activity;
  */
 public interface IHomeView {
 
+    public void getWeatherResult(boolean result, String data);
 
 }

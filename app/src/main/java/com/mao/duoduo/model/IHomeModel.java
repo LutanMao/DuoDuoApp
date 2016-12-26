@@ -5,9 +5,9 @@ package com.mao.duoduo.model;
  */
 public interface IHomeModel {
 
-    /**
-     * 下载头像
-     */
-    void getHeaderPic(String picPath);
+    public void getWeatherByName(String cityName);
+
+
+    public void getWeatherById(String cityId);
 
 }

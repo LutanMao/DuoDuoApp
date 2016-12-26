@@ -17,4 +17,18 @@ public class HomePresenter implements IHomePresenter {
         mHomeModel = new HomeModel(this);
     }
 
+    @Override
+    public void getWeatherByName(String cityName) {
+        mHomeModel.getWeatherByName(cityName);
+    }
+
+    @Override
+    public void getWeatherById(String cityId) {
+        mHomeModel.getWeatherById(cityId);
+    }
+
+    @Override
+    public void getWeatherResult(boolean result, String data) {
+        mHomeView.getWeatherResult(result, data);
+    }
 }

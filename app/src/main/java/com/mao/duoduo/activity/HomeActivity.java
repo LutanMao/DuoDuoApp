@@ -74,6 +74,11 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     private LocationClient mLocationClient;
 
     @Override
+    public void getWeatherResult(boolean result, String data) {
+        Toast.makeText(MaoApplication.getInstance(), data, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHomePresenter = new HomePresenter(this);
@@ -233,6 +238,9 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         mFragmentList.add(new Text4Fragment());
         mHomePagerAdapter.setFragments(mFragmentList);
         mHomePagerAdapter.notifyDataSetChanged();
+
+        String cityName = "南京";
+        mHomePresenter.getWeatherByName(cityName);
     }
 
     private BDLocationListener mLocationListener = new BDLocationListener() {
