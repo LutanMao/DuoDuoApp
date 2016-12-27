@@ -50,6 +50,12 @@
 
         <activity android:name="com.mao.music.activity.TodaySongsActivity"/>
 
+        <activity android:name="com.mao.diary.activity.NoteMainActivity"
+                  android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <activity android:name="com.mao.diary.activity.NoteAddActivity"
+                  android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
         <service android:name="com.baidu.location.f"
                  android:enabled="true"
                  android:process=":remote"/>
