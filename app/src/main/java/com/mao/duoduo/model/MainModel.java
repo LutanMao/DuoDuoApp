@@ -1,11 +1,10 @@
 package com.mao.duoduo.model;
 
-import com.mao.duoduo.MaoApplication;
+import com.mao.MaoApplication;
 import com.mao.duoduo.bean.DaoSession;
 import com.mao.duoduo.bean.Weather;
 import com.mao.duoduo.bean.WeatherDao;
 import com.mao.duoduo.presenter.IMainPresenter;
-import com.mao.duoduo.presenter.MainPresenter;
 import com.mao.duoduo.utils.MaoLog;
 import okhttp3.*;
 import org.json.JSONException;

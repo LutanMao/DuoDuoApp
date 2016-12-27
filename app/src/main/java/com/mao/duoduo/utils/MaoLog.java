@@ -1,7 +1,7 @@
 package com.mao.duoduo.utils;
 
 import android.util.Log;
-import com.mao.duoduo.AppConfiguration;
+import com.mao.AppConfiguration;
 
 /**
  * Created by Mao on 2016/12/19.

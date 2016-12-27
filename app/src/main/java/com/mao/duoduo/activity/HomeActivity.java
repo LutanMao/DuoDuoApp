@@ -23,7 +23,8 @@ import butterknife.*;
 import cn.bmob.v3.BmobUser;
 import com.baidu.location.*;
 import com.bumptech.glide.Glide;
-import com.mao.duoduo.MaoApplication;
+import com.mao.MaoApplication;
+import com.mao.base.BaseActivity;
 import com.mao.duoduo.R;
 import com.mao.duoduo.adapter.HomePagerAdapter;
 import com.mao.duoduo.bean.User;
@@ -35,6 +36,7 @@ import com.mao.duoduo.presenter.HomePresenter;
 import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
 import com.mao.duoduo.widget.ScrollListView;
+import com.mao.music.activity.MusicMainActivity;
 import com.mao.pulltozoomview.PullToZoomScrollViewEx;
 import org.json.JSONObject;
 
@@ -44,7 +46,7 @@ import java.util.List;
 /**
  * Created by Mao on 2016/11/3.
  */
-public class HomeActivity extends BaseActivity implements IHomeView {
+public class HomeActivity extends BaseActivity implements IHomeView, AdapterView.OnItemClickListener {
 
     private static final String TAG = "HomeActivity";
 
@@ -181,6 +183,22 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     }
 
     @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (i) {
+            case 0:
+                break;
+            case 1:
+                Intent intent = new Intent(HomeActivity.this, MusicMainActivity.class);
+                startActivity(intent);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    }
+
+    @Override
     protected void initView() {
         setContentView(R.layout.activity_home);
         mUnBinder = ButterKnife.bind(this);
@@ -221,6 +239,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         mTvWeather = ButterKnife.findById(contentView, R.id.tv_weather_wendu);
         mTvAddress = ButterKnife.findById(contentView, R.id.tv_address);
         mListView = ButterKnife.findById(contentView, R.id.lv_content);
+        mListView.setOnItemClickListener(this);
 
         mArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mListData);
         mListView.setAdapter(mArrayAdapter);

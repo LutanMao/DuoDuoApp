@@ -1,10 +1,10 @@
-package com.mao.duoduo.activity;
+package com.mao.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-import com.mao.duoduo.MaoApplication;
+import com.mao.MaoApplication;
 
 /**
  * Created by Mao on 16-12-22.

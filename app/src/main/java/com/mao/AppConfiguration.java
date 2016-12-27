@@ -1,4 +1,4 @@
-package com.mao.duoduo;
+package com.mao;
 
 /**
  * Created by Mao on 16-12-21.

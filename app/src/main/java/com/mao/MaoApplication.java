@@ -1,4 +1,4 @@
-package com.mao.duoduo;
+package com.mao;
 
 import android.app.Application;
 import cn.bmob.v3.Bmob;
