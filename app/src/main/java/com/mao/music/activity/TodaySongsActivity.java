@@ -12,7 +12,7 @@ import com.mao.music.presenter.TodaySongsPresenter;
 /**
  * Created by Mao on 16-12-27.
  */
-public class TodaySongsActivity extends AppCompatActivity {
+public class TodaySongsActivity extends AppCompatActivity implements ITodaySongsView {
 
     @BindView(R.id.lv_songs)
     ListView mListView;
@@ -32,6 +32,7 @@ public class TodaySongsActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        mPresenter = new TodaySongsPresenter(this);
         mPresenter.getTodaySongs();
     }
 

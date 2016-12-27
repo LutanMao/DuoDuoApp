@@ -7,6 +7,8 @@ import com.mao.music.presenter.ITodaySongsPresenter;
  */
 public class TodaySongsModel implements ITodaySongsModel {
 
+    private static final String TAG = "TodaySongsModel";
+
     private ITodaySongsPresenter mTodaySongsPresenter;
 
     public TodaySongsModel(ITodaySongsPresenter todaySongsPresenter) {

@@ -25,6 +25,7 @@ import com.baidu.location.*;
 import com.bumptech.glide.Glide;
 import com.mao.MaoApplication;
 import com.mao.base.BaseActivity;
+import com.mao.book.activity.BookMainActivity;
 import com.mao.duoduo.R;
 import com.mao.duoduo.adapter.HomePagerAdapter;
 import com.mao.duoduo.bean.User;
@@ -86,7 +87,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, AdapterView
     private HomePagerAdapter mHomePagerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private List<Fragment> mFragmentList;
-    private String[] mListData = new String[]{"个人资料", "我的音乐", "我的电影", "我的购物"};
+    private String[] mListData = new String[]{"个人资料", "我的音乐", "我的电影", "我的购物", "我的书籍"};
     private ArrayAdapter mArrayAdapter;
 
     private LocationClient mLocationClient;
@@ -188,12 +189,16 @@ public class HomeActivity extends BaseActivity implements IHomeView, AdapterView
             case 0:
                 break;
             case 1:
-                Intent intent = new Intent(HomeActivity.this, MusicMainActivity.class);
-                startActivity(intent);
+                Intent musicIntent = new Intent(HomeActivity.this, MusicMainActivity.class);
+                startActivity(musicIntent);
                 break;
             case 2:
                 break;
             case 3:
+                break;
+            case 4:
+                Intent bookIntent = new Intent(HomeActivity.this, BookMainActivity.class);
+                startActivity(bookIntent);
                 break;
         }
     }
