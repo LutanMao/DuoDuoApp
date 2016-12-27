@@ -15,7 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +34,7 @@ import com.mao.duoduo.fragment.Text4Fragment;
 import com.mao.duoduo.presenter.HomePresenter;
 import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
+import com.mao.duoduo.widget.ScrollListView;
 import com.mao.pulltozoomview.PullToZoomScrollViewEx;
 import org.json.JSONObject;
 
@@ -77,14 +77,15 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     private ImageView mIvWeather;
     private TextView mTvWeather;
     private TextView mTvAddress;
+    private ScrollListView mListView;
 
     private Unbinder mUnBinder;
 
     private HomePagerAdapter mHomePagerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private List<Fragment> mFragmentList;
-
-    private String mLocalCity;
+    private String[] mListData = new String[]{"个人资料", "我的音乐", "我的电影", "我的购物"};
+    private ArrayAdapter mArrayAdapter;
 
     private LocationClient mLocationClient;
 
@@ -219,6 +220,10 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         mIvWeather = ButterKnife.findById(contentView, R.id.iv_weather_icon);
         mTvWeather = ButterKnife.findById(contentView, R.id.tv_weather_wendu);
         mTvAddress = ButterKnife.findById(contentView, R.id.tv_address);
+        mListView = ButterKnife.findById(contentView, R.id.lv_content);
+
+        mArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mListData);
+        mListView.setAdapter(mArrayAdapter);
 
         mCirHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,10 +274,9 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
+                        != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
                             Manifest.permission.ACCESS_FINE_LOCATION},
@@ -290,8 +294,6 @@ public class HomeActivity extends BaseActivity implements IHomeView {
                 mLocationClient.start();
             } else {
 
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
             }
         }
     }
