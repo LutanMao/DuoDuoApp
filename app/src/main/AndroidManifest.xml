@@ -32,28 +32,28 @@
                 android:name="com.baidu.lbsapi.API_KEY"
                 android:value="d5uET8Ztfqu4LK7dGL2bnuul0p0LRHOO" />
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.impl.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.RegisterActivity"/>
-        <activity android:name=".activity.HomeActivity"
+        <activity android:name=".activity.impl.LoginActivity"/>
+        <activity android:name=".activity.impl.RegisterActivity"/>
+        <activity android:name=".activity.impl.HomeActivity"
                   android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".activity.PersonalActivity"/>
-        <activity android:name=".activity.CropActivity"
+        <activity android:name=".activity.impl.PersonalActivity"/>
+        <activity android:name=".activity.impl.CropActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name="com.mao.music.activity.MusicMainActivity"/>
 
         <activity android:name="com.mao.music.activity.TodaySongsActivity"/>
 
-        <activity android:name="com.mao.diary.activity.NoteMainActivity"
+        <activity android:name="com.mao.diary.activity.impl.NoteMainActivity"
                   android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
-        <activity android:name="com.mao.diary.activity.NoteAddActivity"
+        <activity android:name="com.mao.diary.activity.impl.NoteAddActivity"
                   android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <service android:name="com.baidu.location.f"

@@ -1,4 +1,4 @@
-package com.mao.diary.activity;
+package com.mao.diary.activity.impl;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,15 +7,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.mao.diary.activity.INoteMainView;
+import com.mao.diary.adapter.NotesAdapter;
+import com.mao.diary.bean.Note;
+import com.mao.diary.presenter.impl.NoteMainPresenter;
 import com.mao.duoduo.R;
+
+import java.util.List;
 
 /**
  * Created by Mao on 16-12-27.
  */
-public class NoteMainActivity extends AppCompatActivity implements INoteAddView{
+public class NoteMainActivity extends AppCompatActivity implements INoteMainView {
 
     private static final int ADD_NEW_NOTE = 300;
 
@@ -23,6 +30,20 @@ public class NoteMainActivity extends AppCompatActivity implements INoteAddView{
     TextView mTvAddNote;
     @BindView(R.id.lv_notes)
     ListView mLvNotes;
+
+    private NoteMainPresenter mNoteMainPresenter;
+    private NotesAdapter mNotesAdapter;
+
+    @Override
+    public void getNotesResult(boolean result, Object data) {
+        if (result) {
+            List<Note> notes = (List<Note>) data;
+            mNotesAdapter.setNotes(notes);
+            mNotesAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,21 +62,20 @@ public class NoteMainActivity extends AppCompatActivity implements INoteAddView{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_NEW_NOTE && resultCode == RESULT_OK) {
-
+            mNoteMainPresenter.getNotes();
         }
     }
 
     private void initView() {
         setContentView(R.layout.activity_note_main);
         ButterKnife.bind(this);
+        mNotesAdapter = new NotesAdapter(this);
+        mLvNotes.setAdapter(mNotesAdapter);
     }
 
     private void initData() {
-
+        mNoteMainPresenter = new NoteMainPresenter(this);
+        mNoteMainPresenter.getNotes();
     }
 
-    @Override
-    public void addNoteResult(boolean result, String data) {
-
-    }
 }

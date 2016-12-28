@@ -1,4 +1,4 @@
-package com.mao.duoduo.activity;
+package com.mao.duoduo.activity.impl;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mao.duoduo.R;
-import com.mao.duoduo.presenter.MainPresenter;
+import com.mao.duoduo.activity.IMainView;
+import com.mao.duoduo.presenter.impl.MainPresenter;
 
 public class MainActivity extends AppCompatActivity implements IMainView {
 

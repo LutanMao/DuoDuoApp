@@ -1,8 +1,9 @@
-package com.mao.duoduo.presenter;
+package com.mao.duoduo.presenter.impl;
 
 import com.mao.duoduo.activity.IMainView;
 import com.mao.duoduo.model.IMainModel;
-import com.mao.duoduo.model.MainModel;
+import com.mao.duoduo.model.impl.MainModel;
+import com.mao.duoduo.presenter.IMainPresenter;
 
 /**
  * Created by Mao on 2016/12/26.

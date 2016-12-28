@@ -1,8 +1,9 @@
-package com.mao.duoduo.presenter;
+package com.mao.duoduo.presenter.impl;
 
 import com.mao.duoduo.activity.IRegisterView;
 import com.mao.duoduo.model.IRegisterModel;
-import com.mao.duoduo.model.RegisterModel;
+import com.mao.duoduo.model.impl.RegisterModel;
+import com.mao.duoduo.presenter.IRegisterPresenter;
 
 /**
  * Created by Mao on 2016/11/2.

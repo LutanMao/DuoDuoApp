@@ -1,9 +1,10 @@
-package com.mao.duoduo.model;
+package com.mao.duoduo.model.impl;
 
 import com.mao.MaoApplication;
 import com.mao.duoduo.bean.DaoSession;
 import com.mao.duoduo.bean.Weather;
 import com.mao.duoduo.bean.WeatherDao;
+import com.mao.duoduo.model.IHomeModel;
 import com.mao.duoduo.presenter.IHomePresenter;
 import com.mao.duoduo.utils.MaoLog;
 import okhttp3.*;

@@ -1,4 +1,4 @@
-package com.mao.duoduo.activity;
+package com.mao.duoduo.activity.impl;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mao.duoduo.R;
-import com.mao.duoduo.presenter.LoginPresenter;
+import com.mao.duoduo.activity.ILoginView;
+import com.mao.duoduo.presenter.impl.LoginPresenter;
 
 /**
  * Created by Mao on 2016/11/2.

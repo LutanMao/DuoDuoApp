@@ -1,8 +1,9 @@
-package com.mao.duoduo.model;
+package com.mao.duoduo.model.impl;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import com.mao.duoduo.bean.User;
+import com.mao.duoduo.model.IRegisterModel;
 import com.mao.duoduo.presenter.IRegisterPresenter;
 
 /**

@@ -1,9 +1,10 @@
-package com.mao.diary.model;
+package com.mao.diary.model.impl;
 
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import com.mao.diary.bean.Note;
+import com.mao.diary.model.INoteAddModel;
 import com.mao.diary.presenter.INoteAddPresenter;
 import com.mao.duoduo.utils.MaoLog;
 

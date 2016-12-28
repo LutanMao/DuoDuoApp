@@ -1,4 +1,4 @@
-package com.mao.duoduo.activity;
+package com.mao.duoduo.activity.impl;
 
 import android.Manifest;
 import android.content.Intent;
@@ -26,15 +26,16 @@ import com.bumptech.glide.Glide;
 import com.mao.MaoApplication;
 import com.mao.base.BaseActivity;
 import com.mao.book.activity.BookMainActivity;
-import com.mao.diary.activity.NoteMainActivity;
+import com.mao.diary.activity.impl.NoteMainActivity;
 import com.mao.duoduo.R;
+import com.mao.duoduo.activity.IHomeView;
 import com.mao.duoduo.adapter.HomePagerAdapter;
 import com.mao.duoduo.bean.User;
 import com.mao.duoduo.fragment.Text1Fragment;
 import com.mao.duoduo.fragment.Text2Fragment;
 import com.mao.duoduo.fragment.Text3Fragment;
 import com.mao.duoduo.fragment.Text4Fragment;
-import com.mao.duoduo.presenter.HomePresenter;
+import com.mao.duoduo.presenter.impl.HomePresenter;
 import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
 import com.mao.duoduo.widget.ScrollListView;

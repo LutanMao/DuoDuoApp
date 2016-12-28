@@ -1,4 +1,4 @@
-package com.mao.duoduo.activity;
+package com.mao.duoduo.activity.impl;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

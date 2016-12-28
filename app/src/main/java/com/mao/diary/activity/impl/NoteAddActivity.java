@@ -1,4 +1,4 @@
-package com.mao.diary.activity;
+package com.mao.diary.activity.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,8 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.mao.diary.presenter.NoteAddPresenter;
+import com.mao.diary.activity.INoteAddView;
+import com.mao.diary.presenter.impl.NoteAddPresenter;
 import com.mao.duoduo.R;
 
 /**

@@ -1,8 +1,9 @@
-package com.mao.duoduo.presenter;
+package com.mao.duoduo.presenter.impl;
 
 import com.mao.duoduo.activity.IHomeView;
 import com.mao.duoduo.model.IHomeModel;
-import com.mao.duoduo.model.HomeModel;
+import com.mao.duoduo.model.impl.HomeModel;
+import com.mao.duoduo.presenter.IHomePresenter;
 import org.json.JSONObject;
 
 /**

@@ -1,8 +1,9 @@
-package com.mao.diary.presenter;
+package com.mao.diary.presenter.impl;
 
 import com.mao.diary.activity.INoteAddView;
 import com.mao.diary.model.INoteAddModel;
-import com.mao.diary.model.NoteAddModel;
+import com.mao.diary.model.impl.NoteAddModel;
+import com.mao.diary.presenter.INoteAddPresenter;
 
 /**
  * Created by Mao on 16-12-27.

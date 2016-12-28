@@ -1,8 +1,9 @@
-package com.mao.duoduo.presenter;
+package com.mao.duoduo.presenter.impl;
 
 import com.mao.duoduo.activity.ILoginView;
 import com.mao.duoduo.model.ILoginModel;
-import com.mao.duoduo.model.LoginModel;
+import com.mao.duoduo.model.impl.LoginModel;
+import com.mao.duoduo.presenter.ILoginPresenter;
 
 /**
  * Created by Mao on 2016/11/2.
