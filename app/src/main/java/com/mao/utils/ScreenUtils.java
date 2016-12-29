@@ -1,4 +1,4 @@
-package com.mao.duoduo.utils;
+package com.mao.utils;
 
 import android.app.Activity;
 import android.content.Context;

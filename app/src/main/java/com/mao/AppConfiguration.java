@@ -9,6 +9,6 @@ public class AppConfiguration {
     public static boolean isDebug = true;
 
     // 应用报名
-    public static final String APPLICATION_ID = "com.mao.duoduo";
+    public static final String PACKAGE_NAME = "com.mao.duoduo";
 
 }

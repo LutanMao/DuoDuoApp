@@ -1,4 +1,4 @@
-package com.mao.duoduo.utils;
+package com.mao.utils;
 
 import android.util.Log;
 import com.mao.AppConfiguration;

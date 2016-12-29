@@ -36,11 +36,11 @@ import com.mao.duoduo.fragment.Text2Fragment;
 import com.mao.duoduo.fragment.Text3Fragment;
 import com.mao.duoduo.fragment.Text4Fragment;
 import com.mao.duoduo.presenter.impl.HomePresenter;
-import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
 import com.mao.duoduo.widget.ScrollListView;
 import com.mao.music.activity.MusicMainActivity;
 import com.mao.pulltozoomview.PullToZoomScrollViewEx;
+import com.mao.utils.MaoLog;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

@@ -1,7 +1,9 @@
-package com.example.administrator.sharebutton;
+package com.mao.utils;
+
+import com.mao.MaoApplication;
 
 /**
- * Created by wiiliam on 16-11-3.
+ * Created by Mao on 16-11-3.
  */
 public class DipPxUtils {
 

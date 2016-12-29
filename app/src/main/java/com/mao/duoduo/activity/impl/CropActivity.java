@@ -16,7 +16,7 @@ import com.mao.cropimage.UCrop;
 import com.mao.cropimage.utils.BitmapLoadUtils;
 import com.mao.cropimage.view.*;
 import com.mao.duoduo.R;
-import com.mao.duoduo.utils.MaoLog;
+import com.mao.utils.MaoLog;
 
 import java.io.OutputStream;
 

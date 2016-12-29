@@ -6,7 +6,7 @@ import cn.bmob.v3.listener.SaveListener;
 import com.mao.diary.bean.Note;
 import com.mao.diary.model.INoteAddModel;
 import com.mao.diary.presenter.INoteAddPresenter;
-import com.mao.duoduo.utils.MaoLog;
+import com.mao.utils.MaoLog;
 
 import java.util.Date;
 

@@ -6,7 +6,7 @@ import com.mao.duoduo.bean.Weather;
 import com.mao.duoduo.bean.WeatherDao;
 import com.mao.duoduo.model.IHomeModel;
 import com.mao.duoduo.presenter.IHomePresenter;
-import com.mao.duoduo.utils.MaoLog;
+import com.mao.utils.MaoLog;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;

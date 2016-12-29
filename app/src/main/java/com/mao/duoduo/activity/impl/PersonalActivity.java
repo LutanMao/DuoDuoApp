@@ -28,9 +28,9 @@ import cn.bmob.v3.listener.UploadFileListener;
 import com.mao.cropimage.UCrop;
 import com.mao.duoduo.R;
 import com.mao.duoduo.bean.User;
-import com.mao.duoduo.utils.MaoLog;
 import com.mao.duoduo.widget.CircleImageView;
 import com.mao.duoduo.widget.SelectPicturePopupWindow;
+import com.mao.utils.MaoLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
