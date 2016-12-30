@@ -222,7 +222,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, AdapterView
 
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mHomePagerAdapter);
-        mViewPager.set
 
         mViewPager.setCurrentItem(0);
         mRbText1.setChecked(true);

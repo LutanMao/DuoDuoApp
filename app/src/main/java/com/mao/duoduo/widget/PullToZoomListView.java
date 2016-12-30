@@ -14,6 +14,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+/**
+ * 下拉头部图片变大的ListView
+ */
 public class PullToZoomListView extends ListView implements AbsListView.OnScrollListener {
 
     private static final int INVALID_VALUE = -1;
