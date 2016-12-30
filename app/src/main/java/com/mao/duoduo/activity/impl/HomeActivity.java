@@ -138,25 +138,25 @@ public class HomeActivity extends BaseActivity implements IHomeView, AdapterView
         mLocationListener = null;
     }
 
-    @OnPageChange(R.id.vp_content)
-    public void onPageSelected(int position) {
-        MaoLog.i(TAG, "onPageSelected : position = " + position);
-        mViewPager.setCurrentItem(position);
-        switch (position) {
-            case 0:
-                mRbText1.setChecked(true);
-                break;
-            case 1:
-                mRbText2.setChecked(true);
-                break;
-            case 2:
-                mRbText3.setChecked(true);
-                break;
-            case 3:
-                mRbText4.setChecked(true);
-                break;
-        }
-    }
+//    @OnPageChange(R.id.vp_content)
+//    public void onPageSelected(int position) {
+//        MaoLog.i(TAG, "onPageSelected : position = " + position);
+//        mViewPager.setCurrentItem(position);
+//        switch (position) {
+//            case 0:
+//                mRbText1.setChecked(true);
+//                break;
+//            case 1:
+//                mRbText2.setChecked(true);
+//                break;
+//            case 2:
+//                mRbText3.setChecked(true);
+//                break;
+//            case 3:
+//                mRbText4.setChecked(true);
+//                break;
+//        }
+//    }
 
     @OnCheckedChanged({R.id.rb_text1, R.id.rb_text2, R.id.rb_text3, R.id.rb_text4})
     public void onCheckedChanged(RadioButton radioButton) {
@@ -222,6 +222,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, AdapterView
 
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mHomePagerAdapter);
+        mViewPager.set
 
         mViewPager.setCurrentItem(0);
         mRbText1.setChecked(true);

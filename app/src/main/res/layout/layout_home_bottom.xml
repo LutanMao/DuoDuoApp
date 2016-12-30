@@ -46,7 +46,7 @@
         <RadioButton
                 android:id="@+id/rb_text4"
                 android:textColor="@color/color_radio_button"
-                android:text="Text4"
+                android:text="笑话"
                 android:textSize="20sp"
                 android:layout_weight="1"
                 android:layout_width="0dp"
