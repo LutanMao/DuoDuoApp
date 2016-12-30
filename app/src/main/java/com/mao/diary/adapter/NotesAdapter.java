@@ -61,7 +61,7 @@ public class NotesAdapter extends BaseAdapter {
         }
         Note note = mNotes.get(i);
         holder.tvTitle.setText(note.getTitle());
-        holder.tvTime.setText(note.getPublishTime().toString());
+        holder.tvTime.setText(note.getPublishTime().getDate().toString());
         return view;
     }
 
